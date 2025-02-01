@@ -4,7 +4,6 @@ import os
 
 os.environ["LANGSMITH_TRACING"] = "true"
 os.environ["LANGSMITH_API_KEY"] = os.getenv("LANGSMITH_API_KEY") or getpass.getpass("Enter your LANGSMITH_API_KEY: ")
-os.environ["TAVILY_API_KEY"] = os.getenv("TAVILY_API_KEY") or getpass.getpass("Enter your TAVILY_API_KEY: ")
 os.environ["GEMINI_API_KEY"] = os.getenv("GEMINI_API_KEY") or getpass.getpass("Enter your GEMINI_API_KEY: ")
 
 os.environ["REDDIT_CLIENT_ID"] = os.getenv("REDDIT_CLIENT_ID") or getpass.getpass("Enter your REDDIT_ID: ")
