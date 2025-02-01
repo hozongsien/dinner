@@ -110,12 +110,8 @@ from langchain_google_vertexai import ChatVertexAI
 from langgraph.checkpoint.memory import MemorySaver
 from langgraph.graph import StateGraph, START, END
 from langgraph.graph.message import add_messages
-from langchain_community.tools.tavily_search import TavilySearchResults
 from langchain_community.tools.reddit_search.tool import RedditSearchRun
 from langgraph.prebuilt import ToolNode, tools_condition
-from langchain_core.output_parsers import StrOutputParser
-
-
 from langchain_core.tools import tool
 
 
@@ -127,8 +123,6 @@ class State(TypedDict):
 
 
 graph_builder = StateGraph(State)
-
-tavily_search = TavilySearchResults(max_results=2)
 
 api_wrapper = RedditSearchAPIWrapper()
 reddit_search = RedditSearchRun(
