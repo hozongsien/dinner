@@ -4,6 +4,8 @@ import os
 
 os.environ["LANGSMITH_TRACING"] = "true"
 os.environ["LANGSMITH_API_KEY"] = os.getenv("LANGSMITH_API_KEY") or getpass.getpass("Enter your LANGSMITH_API_KEY: ")
+
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "./dinner-000-7a40a93d5c52.json"
 os.environ["GEMINI_API_KEY"] = os.getenv("GEMINI_API_KEY") or getpass.getpass("Enter your GEMINI_API_KEY: ")
 
 os.environ["REDDIT_CLIENT_ID"] = os.getenv("REDDIT_CLIENT_ID") or getpass.getpass("Enter your REDDIT_ID: ")
@@ -74,11 +76,11 @@ class RedditFoodSearchRun(BaseTool):  # type: ignore[override, override]
         )
 
 class RecipeInput(BaseModel):
-    meal_name: str = Field(description="Name of the meal to search for, should only be 3 words max.")
+    meal_name: str = Field(description="Name of the meal to get recipe. Describe food/dish in 3 words. The meal namne should separeted by '&' instead of spaces.")
 
 class RecipeSearchRun(BaseTool):
     name: str = "recipe_search"
-    description: str = "A tool that searches for recipes online. Returns instructions (strInstructions), ingredient and cusines (strArea) of the meal."
+    description: str = "A tool that searches for recipes which returns cooking instructions, and ingredients."
     args_schema: Type[BaseModel] = RecipeInput
     return_direct: bool = True
 
@@ -89,11 +91,12 @@ class RecipeSearchRun(BaseTool):
 
         print(meal_name)
         url = f"https://www.themealdb.com/api/json/v1/1/search.php?s={meal_name}"
+        print(url)
         response = requests.get(url)
         if response.status_code == 200:
             data = response.json()
             if data["meals"]:
-                meal = data["meals"][3]  # Get the first meal from the list
+                meal = data["meals"][0]  # Get the first meal from the list
                 return meal
             else:
                 return "No meal found."
